@@ -11,6 +11,10 @@ This is a test made for educational purposes and is not ready to use in producti
 * edit app/config/database.php and configure user, password and database (database can be an empty one)
 * Execute tests.php (ie: http://localhost/cakeInstallFolder/tests.php)
 
+# Ideas
+* Use {ModelName} in virtualFields or customFields, the behavior automatically replaces it with the correct table alias. (see advanced example).
+
+
 # Usage
 
     # A person hasOne => Car
@@ -30,7 +34,9 @@ This is a test made for educational purposes and is not ready to use in producti
         ),
     )
 
-### More advanced sample:
+### An (not much yet) advanced example:
+
+This example use models defined in this repository (check models/)
 
     $this->Person->find('first', array(
         'assoc' => array(
