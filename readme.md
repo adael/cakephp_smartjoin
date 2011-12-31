@@ -17,7 +17,7 @@ This is a test made for educational purposes and is not ready to use in producti
 * The behavior collects join configuration from association config (defined in $belongsTo and $hasMany), but you
 can easily redefine in the call.
 * I don't need to include fields that I don't need. In containable you can't select fields or you must to include
-foreignKeys of related models
+foreignKeys of related models (afaik)
 
 # Usage
 
