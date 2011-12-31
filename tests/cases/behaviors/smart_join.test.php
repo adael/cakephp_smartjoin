@@ -79,6 +79,7 @@ class SmartJoinBehaviorTest extends CakeTestCase {
 				'Mother' => array(
 					'Office',
 					'Car' => array(
+						'type' => 'inner',
 						'fields' => array(
 							'model',
 							'km',
@@ -92,6 +93,7 @@ class SmartJoinBehaviorTest extends CakeTestCase {
 		$this->assertTrue($r['Person']['Mother']);
 		$this->assertEqual($r['Person']['Mother']['name'], 'Elsa');
 		$this->assertEqual($r['Person']['Mother']['Car']['test'], 72);
+		debug($r);
 	}
 
 	/**
