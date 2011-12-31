@@ -19,6 +19,7 @@ Well, I trying to do a system to get belongsTo and hasOne data from models with 
 "normalized resulset".
 
 What I mean? (better I explain it with a code example)
+
     <?php
     # Somewhere inside a proyect...
     $this->Person->find('first', array(
