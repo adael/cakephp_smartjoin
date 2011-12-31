@@ -18,8 +18,8 @@ some code modification for the desired results. I ran the tests with these modif
 * The behavior uses virtualFields of associated models (but I think need more tests for ensure this feature)
 * The behavior collects join configuration from association config (defined in $belongsTo and $hasMany), but you
 can easily redefine in the call.
-* You don't need to include fields that you don't need. In containable you can't select fields or you must to include
-foreignKeys of related models (afaik)
+* You don't need to include fields that you don't need. In containable you must to include foreign keys of related models (afaik)
+* The response allways puts the associated model inside the results of parent model. ie: Car inside Person, etc
 
 # Usage
 
