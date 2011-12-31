@@ -1,6 +1,8 @@
 # Playing with behavior for joins in cakephp
 
-This is a test made for educational purposes and is not ready to use in production.
+This is a test made for educational purposes and is not ready to use in production. I had to create a datasource with
+some code modification for the desired results. I ran the tests with these modifications
+(models and behaviors) without problems.
 
 # Installation:
 
