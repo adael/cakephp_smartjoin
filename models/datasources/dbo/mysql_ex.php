@@ -1,23 +1,24 @@
 <?
 
-App::import('Datasource', 'DboMysqli');
+debug("Por aqui");
+App::import('Datasource', 'DboMysql');
 
-class DboMysqliEx extends DboMysqli {
+class MysqlEx extends DboMysql {
 
-	public $description = "MySQLi DBO Driver - Extended";
+	public $description = "MySQL DBO Driver - Extended";
 
 	// Override resultSet to allow for Model__field type aliases
 	function resultSet(&$results) {
 		if(isset($this->results) && is_resource($this->results) && $this->results != $results){
-			mysqli_free_result($this->results);
+			mysql_free_result($this->results);
 		}
 		$this->results = & $results;
 		$this->map = array();
-		$num_fields = mysqli_num_fields($results);
+		$num_fields = mysql_num_fields($results);
 		$index = 0;
 		$j = 0;
 		while($j < $num_fields){
-			$column = mysqli_fetch_field_direct($results, $j);
+			$column = mysql_fetch_field($results, $j);
 
 			if(!empty($column->table) && strpos($column->name, $this->virtualFieldSeparator) === false){
 				$table = $column->table;
@@ -46,11 +47,11 @@ class DboMysqliEx extends DboMysqli {
 
 	/**
 	 * Fetches the next row from the current result set
-	 * Lo sobreescribo para permitir la inclusion de submodelos desde joins
-	 * @return unknown
+	 * Some changes to permit nested results
+	 * @return mixed
 	 */
 	function fetchResult() {
-		if(($row = mysqli_fetch_row($this->results))){
+		if(($row = mysql_fetch_row($this->results))){
 			$resultRow = array();
 			foreach($row as $index => $field){
 				$table = $column = null;
@@ -68,11 +69,12 @@ class DboMysqliEx extends DboMysqli {
 
 	/**
 	 * Insert an element into the array
+	 * Could be replaced with Hash::insert() in CakePHP 2.2+
 	 * @param array $data the array to insert the item
 	 * @param string $keys the path where to insert the item into the array
 	 * @param mixed $value the value
 	 */
-	function __fset(array &$data, $keys, $value) {
+	private function __fset(array &$data, $keys, $value) {
 		if(!is_array($keys)){
 			$keys = explode('.', $keys);
 		}

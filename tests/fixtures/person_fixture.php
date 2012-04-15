@@ -2,7 +2,7 @@
 
 class PersonFixture extends CakeTestFixture {
 
-	var $name = 'person';
+	var $name = 'Person';
 	var $fields = array(
 		'id' => array('type' => 'integer', 'key' => 'primary'),
 		'name' => array('type' => 'string', 'length' => 50),

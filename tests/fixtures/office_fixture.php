@@ -2,7 +2,7 @@
 
 class OfficeFixture extends CakeTestFixture {
 
-	var $name = 'office';
+	var $name = 'Office';
 	var $fields = array(
 		'id' => array('type' => 'integer', 'key' => 'primary'),
 		'name' => array('type' => 'string', 'length' => 50),

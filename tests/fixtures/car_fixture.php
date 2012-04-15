@@ -2,7 +2,7 @@
 
 class CarFixture extends CakeTestFixture {
 
-	var $name = 'car';
+	var $name = 'Car';
 	var $fields = array(
 		'id' => array('type' => 'integer', 'key' => 'primary'),
 		'model' => array('type' => 'string', 'length' => 50),

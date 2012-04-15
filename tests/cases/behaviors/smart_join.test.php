@@ -16,7 +16,7 @@ class SmartJoinBehaviorTest extends CakeTestCase {
 	 * @var array
 	 * @access public
 	 */
-	var $fixtures = array('person', 'office', 'car');
+	var $fixtures = array('plugin.smart_join.person', 'plugin.smart_join.office', 'plugin.smart_join.car');
 
 	/**
 	 * Method executed before each test
@@ -24,9 +24,9 @@ class SmartJoinBehaviorTest extends CakeTestCase {
 	 * @access public
 	 */
 	function startTest() {
-		$this->Person = & ClassRegistry::init('Person');
+		$this->Person = & ClassRegistry::init('SmartJoin.Person');
 		$this->Person->recursive = -1;
-		$this->Person->Behaviors->attach('SmartJoin');
+		$this->Person->Behaviors->attach('SmartJoin.SmartJoin');
 	}
 
 	/**
