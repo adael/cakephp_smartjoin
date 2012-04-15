@@ -73,7 +73,7 @@ This example use models defined in this repository (check models/)
                     'fields' => array(
                         'model',
                         'km',
-                        '({Car}.id * 24) as {Car}__test',
+                        '({Car}.id * 24) as {Car}__test', // <-- note that {Car} is replaced with actual alias
                     ),
                 ),
             ),
