@@ -4,14 +4,13 @@ This is a test made for educational purposes and is not ready to use in producti
 some code modification for the desired results. I ran the tests with these modifications
 (models and behaviors) without problems.
 
-# Installation:
+# Installation and review:
 
 * Install cakephp 1.3.x
-* edit app/config/core.php and set debug to 2
-* Download smartjoin files: https://github.com/adael/cakephp_smartjoin/zipball/master
-* Copy files into cakephp_installation/app/
-* edit app/config/database.php and configure user, password and database (database can be an empty one)
+* edit app/config/database.php and set 'driver' => 'SmartJoin.MysqlEx'
+* Download smartjoin plugin and install: https://github.com/adael/cakephp_smartjoin/zipball/master
 * Execute tests.php (ie: http://localhost/cakeInstallFolder/tests.php)
+* Choose SmartJoin tests
 
 # Features and Ideas
 * Use {ModelName} in virtualFields or customFields, the behavior automatically replaces it with the correct table alias. (see advanced example).
