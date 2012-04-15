@@ -19,7 +19,9 @@ class Person extends AppModel {
 	var $belongsTo = array(
 		'Mother' => array(
 			'className' => 'SmartJoin.Person',
-			'foreignKey' => 'mother_id',
+		),
+		'BestFriend' => array(
+			'className' => 'SmartJoin.Person',
 		),
 		'Office' => array(
 			'className' => 'SmartJoin.Office',

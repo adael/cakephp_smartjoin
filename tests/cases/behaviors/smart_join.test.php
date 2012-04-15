@@ -67,6 +67,24 @@ class SmartJoinBehaviorTest extends CakeTestCase {
 
 		$this->assertEqual($r['Person']['name'], 'Tony');
 		$this->assertEqual($r['Person']['MainPersonCar']['Car']['model'], 'Smart');
+
+		$r = $this->Person->find('first', array(
+			'assoc' => array(
+				'Mother' => array(
+					'fields' => array('id', 'name'),
+				),
+				'BestFriend' => array(
+					'fields' => array('id', 'name'),
+					'Mother' => array(
+						'fields' => array('id', 'name'),
+					),
+				),
+			),
+			'conditions' => array('Person.id' => 3),
+				));
+		$this->assertEqual($r['Person']['Mother']['name'], 'Elsa');
+		$this->assertEqual($r['Person']['BestFriend']['name'], 'Tony');
+		$this->assertEqual($r['Person']['BestFriend']['Mother']['name'], 'Eva');
 	}
 
 	function testBelongsTo() {
