@@ -3,8 +3,17 @@
 class Person extends AppModel {
 
 	var $hasOne = array(
-		'Car' => array(
-			'className' => 'SmartJoin.Car',
+		'MainPersonCar' => array(
+			'className' => 'SmartJoin.PersonCar',
+			'foreignKey' => 'person_id',
+			'conditions' => array(
+				'{MainPersonCar}.main' => 1,
+			),
+		),
+	);
+	var $hasMany = array(
+		'PersonCar' => array(
+			'className' => 'SmartJoin.PersonCar',
 		),
 	);
 	var $belongsTo = array(

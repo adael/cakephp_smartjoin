@@ -6,14 +6,16 @@ class CarFixture extends CakeTestFixture {
 	var $fields = array(
 		'id' => array('type' => 'integer', 'key' => 'primary'),
 		'model' => array('type' => 'string', 'length' => 50),
-		'person_id' => array('type' => 'integer', 'null' => false),
 		'created' => 'datetime',
 		'updated' => 'datetime'
 	);
 	var $records = array(
-		array('model' => 'Renault Clio', 'person_id' => 2),
-		array('model' => 'BMW Z3', 'person_id' => 4),
-		array('model' => 'Ford K', 'person_id' => 8),
+		array('id' => 1, 'model' => 'Renault Clio'),
+		array('id' => 2, 'model' => 'BMW Z3'),
+		array('id' => 3, 'model' => 'Ford K'),
+		array('id' => 4, 'model' => 'Seat Ibiza'),
+		array('id' => 5, 'model' => 'Renault Megane'),
+		array('id' => 6, 'model' => 'Smart'),
 	);
 
 }

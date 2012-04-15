@@ -16,7 +16,12 @@ class SmartJoinBehaviorTest extends CakeTestCase {
 	 * @var array
 	 * @access public
 	 */
-	var $fixtures = array('plugin.smart_join.person', 'plugin.smart_join.office', 'plugin.smart_join.car');
+	var $fixtures = array(
+		'plugin.smart_join.car',
+		'plugin.smart_join.office',
+		'plugin.smart_join.person',
+		'plugin.smart_join.person_car',
+	);
 
 	/**
 	 * Method executed before each test
@@ -32,24 +37,36 @@ class SmartJoinBehaviorTest extends CakeTestCase {
 
 	function testHasOne() {
 		$r = $this->Person->find('first', array(
+			'fields' => array(
+				'Person.name',
+			),
 			'assoc' => array(
-				'Car'
+				'MainPersonCar' => array(
+					'fields' => false,
+					'Car' => array(
+						'fields' => 'model',
+					),
+				),
 			),
 			'conditions' => array('Person.id' => 1),
 				));
 
 		$this->assertTrue(isset($r['Person']['name']));
-		$this->assertTrue(isset($r['Person']['Car']));
-		$this->assertFalse(isset($r['Person']['Car']['model']));
+		$this->assertTrue(isset($r['Person']['MainPersonCar']['Car']));
+		$this->assertEqual($r['Person']['MainPersonCar']['Car']['model'], 'Seat Ibiza');
 
 		$r = $this->Person->find('first', array(
 			'assoc' => array(
-				'Car'
+				'MainPersonCar' => array(
+					'Car' => array(
+					),
+				),
 			),
 			'conditions' => array('Person.id' => 4),
 				));
-		$this->assertTrue(isset($r['Person']['name']));
-		$this->assertTrue(isset($r['Person']['Car']['model']));
+
+		$this->assertEqual($r['Person']['name'], 'Tony');
+		$this->assertEqual($r['Person']['MainPersonCar']['Car']['model'], 'Smart');
 	}
 
 	function testBelongsTo() {
@@ -67,22 +84,29 @@ class SmartJoinBehaviorTest extends CakeTestCase {
 		$r = $this->Person->find('first', array(
 			'assoc' => array(
 				'Mother' => array(
-					'Office',
-					'Car' => array(
+					'Office' => array(
+					),
+					'MainPersonCar' => array(
 						'type' => 'inner',
-						'fields' => array(
-							'model',
-							'km',
-							'({Car}.id * 24) as {Car}__test',
+						'Car' => array(
+							'fields' => array(
+								'model',
+								'km',
+								'({Car}.id * 24) as {Car}__test',
+							),
 						),
 					),
 				),
 			),
 			'conditions' => array('Person.id' => 1),
 				));
-		$this->assertTrue($r['Person']['Mother']);
+
+		$this->assertFalse(isset($r['Person']['MainPersoncar']));
+		$this->assertEqual($r['Person']['name'], 'Bob');
 		$this->assertEqual($r['Person']['Mother']['name'], 'Elsa');
-		$this->assertEqual($r['Person']['Mother']['Car']['test'], 72);
+		$this->assertEqual($r['Person']['Mother']['Office']['name'], 'Office 1');
+		$this->assertEqual($r['Person']['Mother']['MainPersonCar']['Car']['test'], 72);
+		$this->assertEqual($r['Person']['Mother']['MainPersonCar']['Car']['model'], 'Ford K');
 	}
 
 	/**
@@ -95,25 +119,23 @@ class SmartJoinBehaviorTest extends CakeTestCase {
 		$r = $this->Person->find('first', array(
 			'fields' => array('name'),
 			'assoc' => array(
-				'Car' => array(
-					'fields' => array(
-						'model',
-						'km',
-						'({Car}.id * 24) as {Car}__test',
+				'MainPersonCar' => array(
+					'Car' => array(
+						'fields' => array(
+							'model',
+							'km',
+							'({Car}.id * 24) as {Car}__test',
+						),
 					),
 				),
 			),
 			'conditions' => array('Person.id' => 4),
 				));
 
-		$this->assertTrue(isset($r['Person']['name']));
 		$this->assertFalse(isset($r['Person']['id']));
-		$this->assertTrue(isset($r['Person']['Car']));
-		$this->assertFalse(isset($r['Car']));
 		$this->assertFalse(isset($r['Person']['Mother']));
-
 		$this->assertEqual($r['Person']['name'], 'Tony');
-		$this->assertEqual($r['Person']['Car']['model'], 'BMW Z3');
+		$this->assertEqual($r['Person']['MainPersonCar']['Car']['model'], 'Smart');
 	}
 
 }

@@ -190,13 +190,14 @@ class SmartJoinBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * Para cada contain tengo que:
-	 * 1.- Hallar el tipo de relación (fácil)
-	 * 2.- Según el tipo construir el join correspondiente
-	 * 3.- Comprobar si hay subniveles y lo mismo
+	 * For each assoc i have to:
+	 * - Get the relation type
+	 * - Make corresponding join
+	 * - Check if is there sublevels and do the same with them
 	 * @param array $query
 	 * @param AppModel $model
 	 * @param array $joins
+	 * @param string $parentAlias
 	 */
 	private function __buildJoins(&$query, $model, $joins, $parentAlias = '') {
 		$associated = $model->getAssociated();
@@ -291,13 +292,11 @@ class SmartJoinBehavior extends ModelBehavior {
 				}
 			}
 
-			$search = "{{$assocModel->alias}}";
-
-			foreach($query['fields'] as $k => $v){
-				if(strpos($v, $search) !== false){
-					$query['fields'][$k] = str_replace($search, $alias, $v);
-				}
-			}
+			// Change {Model} pattern to current alias
+			$search = '{' . $assocModel->alias . '}';
+			$query['fields'] = $this->__replaceArrayRecursive($query['fields'], $search, $alias);
+			$query['conditions'] = $this->__replaceArrayRecursive($query['conditions'], $search, $alias);
+			$join['conditions'] = $this->__replaceArrayRecursive($join['conditions'], $search, $alias);
 
 			$join['table'] = $assocModel->table;
 			$join['alias'] = $alias;
@@ -308,6 +307,28 @@ class SmartJoinBehavior extends ModelBehavior {
 				$this->__buildJoins($query, $assocModel, $models, $alias);
 			}
 		}
+	}
+
+	/**
+	 * Replace $search to $replace in keys and values of $array recursively
+	 * @param array $array
+	 * @param string $search
+	 * @param string $replace
+	 */
+	private function __replaceArrayRecursive($array, $search, $replace) {
+		$out = array();
+		foreach($array as $k => $v){
+			if(is_string($k)){
+				$k = str_replace($search, $replace, $k);
+			}
+			if(is_string($v)){
+				$v = str_replace($search, $replace, $v);
+			}elseif(is_array($v)){
+				$v = $this->__replaceArrayRecursive($v, $search, $replace);
+			}
+			$out[$k] = $v;
+		}
+		return $out;
 	}
 
 }
