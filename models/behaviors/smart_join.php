@@ -170,6 +170,7 @@ class SmartJoinBehavior extends ModelBehavior {
 					$query['fields'] = array($query['fields']);
 				}
 			}
+
 			$query['findQueryType'] = $model->findQueryType;
 			$this->__buildJoins($query, $model, $assoc, $model->alias);
 
@@ -214,14 +215,15 @@ class SmartJoinBehavior extends ModelBehavior {
 			}
 
 			$assoc = $model->{$type}[$joinAlias];
-			if($assoc['className'] !== $model->name){
-				$assocModel = $model->{$assoc['className']};
-			}else{
-				$assocModel = new $model->name;
-			}
+
+//			if($assoc['className'] !== $model->name){
+//				$assocModel = $model->{$assoc['className']};
+//			}else{
+//				$assocModel = new $model->name;
+//			}
+			$assocModel = $model->{$joinAlias};
 
 			if(!$assocModel instanceof Model){
-				return;
 				trigger_error("El modelo $model->name no está asociado con {$assoc['className']}");
 				continue;
 			}

@@ -23,20 +23,11 @@ class SmartJoinBehaviorTest extends CakeTestCase {
 	 *
 	 * @access public
 	 */
-	function startTest() {
-		$this->Person = & ClassRegistry::init('SmartJoin.Person');
+	function start() {
+		parent::start();
+		$this->Person = ClassRegistry::init('SmartJoin.Person');
 		$this->Person->recursive = -1;
 		$this->Person->Behaviors->attach('SmartJoin.SmartJoin');
-	}
-
-	/**
-	 * Method executed after each test
-	 *
-	 * @access public
-	 */
-	function endTest() {
-		unset($this->Person);
-		ClassRegistry::flush();
 	}
 
 	function testHasOne() {
@@ -57,7 +48,6 @@ class SmartJoinBehaviorTest extends CakeTestCase {
 			),
 			'conditions' => array('Person.id' => 4),
 				));
-
 		$this->assertTrue(isset($r['Person']['name']));
 		$this->assertTrue(isset($r['Person']['Car']['model']));
 	}
@@ -93,7 +83,6 @@ class SmartJoinBehaviorTest extends CakeTestCase {
 		$this->assertTrue($r['Person']['Mother']);
 		$this->assertEqual($r['Person']['Mother']['name'], 'Elsa');
 		$this->assertEqual($r['Person']['Mother']['Car']['test'], 72);
-		debug($r);
 	}
 
 	/**

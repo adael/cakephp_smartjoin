@@ -1,6 +1,5 @@
-<?
+<?php
 
-debug("Por aqui");
 App::import('Datasource', 'DboMysql');
 
 class MysqlEx extends DboMysql {
